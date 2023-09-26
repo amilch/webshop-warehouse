@@ -6,5 +6,5 @@ use Domain\Interfaces\ViewModel;
 
 interface CreateProductInputPort
 {
-    public function createProduct(CreateProductRequestModel $request): ViewModel;
+    public function createProduct(CreateProductRequestModel $request): void;
 }

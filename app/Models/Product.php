@@ -16,53 +16,30 @@ class Product extends Model implements HasMedia, ProductEntity
     use HasFactory;
 
     protected $fillable = [
-        'category_id',
-        'name',
         'sku',
-        'description',
-        'price',
-        'weight',
+        'quantity',
+        'reserved',
     ];
 
     protected $casts = [
         'id' => 'integer',
     ];
 
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class);
-    }
-
     // ---------------------------------------------------------------------
     // ProductEntity methods
-
-    public function getCategoryId(): int
-    {
-        return $this->category_id;
-    }
-
-    public function getName(): string
-    {
-        return $this->attributes['name'];
-    }
 
     public function getSku(): string
     {
         return $this->attributes['sku'];
     }
 
-    public function getDescription(): ?string
+    public function getQuantity(): int
     {
-        return $this->attributes['description'] ?? null;
+        return $this->attributes['quantity'];
     }
 
-    public function getPrice(): MoneyValueObject
+    public function getReserved(): int
     {
-        return MoneyValueObject::fromInt($this->attributes['price']);
-    }
-
-    public function getWeight(): int
-    {
-        return $this->attributes['weight'];
+        return $this->attributes['reserved'];
     }
 }

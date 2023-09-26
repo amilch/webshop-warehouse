@@ -1,10 +1,10 @@
 <?php
 
-namespace Domain\UseCases\CreateProduct;
+namespace Domain\UseCases\UpdateInventory;
 
 use Domain\Interfaces\ProductEntity;
 
-class CreateProductResponseModel
+class UpdateInventoryResponseModel
 {
     public function __construct(private ProductEntity $product) {}
 

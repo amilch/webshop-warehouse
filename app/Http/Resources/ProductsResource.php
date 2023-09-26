@@ -14,13 +14,9 @@ class ProductsResource extends JsonResource
     {
         return [
             'data' => array_map(fn ($product) => [
-                'id' => $product->id,
-                'category_id' => $product->getCategoryId(),
-                'name' => $product->getName(),
                 'sku' => $product->getSku(),
-                'description' => $product->getDescription(),
-                'price' => $product->getPrice()?->toString(),
-                'weight' => $product->getWeight(),
+                'quantity' => $product->getQuantity(),
+                'reserved' => $product->getReserved(),
             ], $this->products),
         ];
     }

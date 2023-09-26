@@ -11,32 +11,17 @@ class ProductDatabaseRepository implements ProductRepository
     public function upsert(ProductEntity $product): ProductEntity
     {
         return Product::updateOrCreate([
-            'id' => $product->id,
+            'sku' => $product->getSku(),
         ],
         [
-            'category_id' => $product->getCategoryId(),
-            'name' => $product->getName(),
             'sku' => $product->getSku(),
-            'description' => $product->getDescription(),
-            'price' => $product->getPrice()->toInt(),
-            'weight' => $product->getWeight(),
+            'quantity' => $product->getQuantity(),
+            'reserved' => $product->getReserved(),
         ]);
     }
 
-    public function all(?int $id = null, ?int $category_id = null,): array
+    public function all(): array
     {
-        $builder = Product::query();
-
-        if ($id !== null)
-        {
-            $builder = $builder->where('id', $id);
-        }
-
-        if ($category_id !== null)
-        {
-            $builder = $builder->where('category_id', $category_id);
-        }
-
-        return $builder->get()->all();
+        return Product::all()->all();
     }
 }

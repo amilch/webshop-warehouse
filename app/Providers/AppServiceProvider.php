@@ -12,20 +12,6 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(
-            \Domain\Interfaces\CategoryRepository::class,
-            \App\Repositories\CategoryDatabaseRepository::class
-        );
-
-        $this->app
-            ->when(\App\Http\Controllers\GetAllCategoriesController::class)
-            ->needs(\Domain\UseCases\GetAllCategories\GetAllCategoriesInputPort::class)
-            ->give(function ($app) {
-                return $app->make(\Domain\UseCases\GetAllCategories\GetAllCategoriesInteractor::class, [
-                    'output' => $app->make(\App\Adapters\Presenters\GetAllCategoriesJsonPresenter::class)
-                ]);
-            });
-
-        $this->app->bind(
             \Domain\Interfaces\ProductRepository::class,
             \App\Repositories\ProductDatabaseRepository::class
         );
@@ -35,13 +21,18 @@ class AppServiceProvider extends ServiceProvider
             \App\Factories\ProductModelFactory::class
         );
 
+        $this->app->bind(
+            \Domain\Interfaces\MessageQueueService::class,
+            \App\Services\AMQPService::class,
+        );
+
         $this->app
-            ->when(\App\Http\Controllers\CreateProductController::class)
-            ->needs(\Domain\UseCases\CreateProduct\CreateProductInputPort::class)
+            ->when(\App\Http\Controllers\UpdateInventoryController::class)
+            ->needs(\Domain\UseCases\UpdateInventory\UpdateInventoryInputPort::class)
             ->give(function ($app) {
-                return $app->make(\Domain\UseCases\CreateProduct\CreateProductInteractor::class, [
-                    'output' => $app->make(\App\Adapters\Presenters\CreateProductJsonPresenter::class),
-                    'messageOutput' => $app->make(\App\Adapters\Publishers\ProductCreatedMessagePublisher::class),
+                return $app->make(\Domain\UseCases\UpdateInventory\UpdateInventoryInteractor::class, [
+                    'output' => $app->make(\App\Adapters\Presenters\UpdateInventoryJsonPresenter::class),
+                    'messageOutput' => $app->make(\App\Adapters\Publishers\InventoryUpdatedMessagePublisher::class),
                 ]);
             });
 
@@ -54,10 +45,17 @@ class AppServiceProvider extends ServiceProvider
                 ]);
             });
 
-        $this->app->bind(
-            \Domain\Interfaces\MessageQueueService::class,
-            \App\Services\RabbitMQService::class,
-        );
+        $this->app
+            ->when(\App\Console\Commands\ConsumeAMQPCommand::class)
+            ->needs(\Domain\UseCases\CreateProduct\CreateProductInputPort::class)
+            ->give(function ($app) {
+                return $app->make(\Domain\UseCases\CreateProduct\CreateProductInteractor::class);
+            });
+
+//        $this->app->bind(
+//            \Domain\UseCases\CreateProduct\CreateProductInputPort::class,
+//            \Domain\UseCases\CreateProduct\CreateProductInteractor::class,
+//        );
     }
 
     /**

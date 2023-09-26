@@ -12,12 +12,9 @@ class GetProductsInteractor implements GetProductsInputPort
         private ProductRepository $repository,
     ) {}
 
-    public function getProducts(GetProductsRequestModel $request): ViewModel
+    public function getProducts(): ViewModel
     {
-        $products = $this->repository->all(
-            id: $request->getId(),
-            category_id: $request->getCategoryId(),
-        );
+        $products = $this->repository->all();
 
         return $this->output->products(
             new GetProductsResponseModel($products)

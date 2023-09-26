@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Adapters\ViewModels\JsonResourceViewModel;
-use App\Http\Requests\GetProductsRequest;
-use Domain\UseCases\GetAllCategories\GetAllCategoriesInputPort;
 use Domain\UseCases\GetProducts\GetProductsInputPort;
-use Domain\UseCases\GetProducts\GetProductsRequestModel;
 
 class GetProductsController extends Controller
 {
@@ -14,10 +11,9 @@ class GetProductsController extends Controller
         private GetProductsInputPort $interactor,
     ) {}
 
-    public function __invoke(GetProductsRequest $request)
+    public function __invoke()
     {
-        $viewModel = $this->interactor->getProducts(
-            new GetProductsRequestModel($request->validated()));
+        $viewModel = $this->interactor->getProducts();
 
         if ($viewModel instanceof JsonResourceViewModel) {
             return $viewModel->getResource();

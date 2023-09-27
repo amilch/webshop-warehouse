@@ -27,7 +27,7 @@ class ConsumeAMQPCommand extends Command
         var_dump('Listening for messages...');
 
         while(true) {
-            Amqp::consume('inventory_product_created',
+            Amqp::consume('warehouse_product_created',
                 function (AMQPMessage $message, Consumer $resolver) {
                     try{
                         $payload = json_decode($message->getBody(), true);
@@ -44,6 +44,7 @@ class ConsumeAMQPCommand extends Command
                         $resolver->reject($message);
                     }
                 });
+            sleep(10);
         }
     }
 }

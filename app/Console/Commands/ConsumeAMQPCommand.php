@@ -16,6 +16,8 @@ class ConsumeAMQPCommand extends Command
 
     protected $description = 'AMQP consumer';
 
+    private $should_keep_running = true;
+
     public function __construct(
         private CreateProductInputPort $interactor,
     ) {
@@ -24,29 +26,29 @@ class ConsumeAMQPCommand extends Command
 
     public function handle()
     {
+        $this->trap(15, fn () => $this->should_keep_running = false);
         var_dump('Listening for messages...');
 
-        while(true) {
-            Amqp::consume('warehouse_product_created',
-                function (AMQPMessage $message, Consumer $resolver) {
-                    try{
-                        $payload = json_decode($message->getBody(), true);
-                        var_dump('Message received', $payload);
+        Amqp::consume('warehouse_product_created',
+            function (AMQPMessage $message, Consumer $resolver) {
+                try{
+                    $payload = json_decode($message->getBody(), true);
+                    var_dump('Message received', $payload);
 
-                        $this->interactor->createProduct(
-                            new CreateProductRequestModel($payload)
-                        );
+                    $this->interactor->createProduct(
+                        new CreateProductRequestModel($payload)
+                    );
 
-                        $resolver->acknowledge($message);
-                    } catch (Exception $e) {
-                        var_dump('Error processing message');
-                        var_dump($e->getMessage());
-                        $resolver->reject($message);
-                    }
-                }, [
-                    'routing_key' => 'product_created'
-                ]);
-            sleep(10);
-        }
+                    $resolver->acknowledge($message);
+                } catch (Exception $e) {
+                    var_dump('Error processing message');
+                    var_dump($e->getMessage());
+                    $resolver->reject($message);
+                }
+            }, [
+                'routing_key' => 'product_created'
+            ]);
+
+        while($this->should_keep_running) {}
     }
 }

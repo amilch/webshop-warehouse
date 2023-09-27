@@ -34,4 +34,21 @@ class UpdateInventoryTest extends TestCase
         $this->assertEquals(200, $product->getQuantity());
         $this->assertEquals(100, $product->getReserved());
     }
+
+    public function test_updating_inventory_publishes_message(): void
+    {
+        Amqp::shouldReceive('publish')
+            ->once()
+            ->withArgs([
+                'inventory_updated',
+                '{"sku":"kirsch_tomaten_samen","quantity":200}'
+            ]);
+
+        $response = $this->postJson('/products',[
+            'sku' => 'kirsch_tomaten_samen',
+            'quantity' => 200,
+            'reserved' => 100,
+        ]);
+        $response->assertStatus(200);
+    }
 }

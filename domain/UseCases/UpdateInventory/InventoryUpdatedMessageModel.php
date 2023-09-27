@@ -15,7 +15,7 @@ class InventoryUpdatedMessageModel implements Message
         return $this->attributes['sku'];
     }
 
-    public function getQuantity(): string
+    public function getQuantity(): int
     {
         return $this->attributes['quantity'];
     }

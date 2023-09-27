@@ -43,7 +43,9 @@ class ConsumeAMQPCommand extends Command
                         var_dump($e->getMessage());
                         $resolver->reject($message);
                     }
-                });
+                }, [
+                    'routing_key' => 'product_created'
+                ]);
             sleep(10);
         }
     }

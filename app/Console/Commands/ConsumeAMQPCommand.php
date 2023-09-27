@@ -46,7 +46,8 @@ class ConsumeAMQPCommand extends Command
                     $resolver->reject($message);
                 }
             }, [
-                'routing_key' => 'product_created'
+                'routing' => 'product_created',
+                'persistent' => true,
             ]);
 
         while($this->should_keep_running) {}

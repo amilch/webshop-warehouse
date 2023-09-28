@@ -5,14 +5,14 @@ namespace Tests\Feature;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class GetProductsTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
+    use WithoutMiddleware;
+
     public function test_returns_all_products(): void
     {
         $response = $this->getJson('/products');

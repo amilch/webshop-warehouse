@@ -8,12 +8,15 @@ use Domain\UseCases\CreateProduct\CreateProductRequestModel;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class CreateProductTest extends TestCase
 {
     use RefreshDatabase;
     protected $seed = true;
+
+    use WithoutMiddleware;
 
     public function test_when_receiving_product_created_message_create_product(): void
     {

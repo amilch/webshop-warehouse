@@ -6,11 +6,14 @@ use App\Models\Product;
 use Bschmitt\Amqp\Facades\Amqp;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class UpdateInventoryTest extends TestCase
 {
+    use WithoutMiddleware;
+
     public function test_updating_inventory_changes_the_quantity(): void
     {
         Amqp::shouldReceive('publish')->once();

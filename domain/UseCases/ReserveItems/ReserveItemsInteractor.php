@@ -9,9 +9,8 @@ use Domain\Interfaces\ViewModel;
 class ReserveItemsInteractor implements ReserveItemsInputPort
 {
     public function __construct(
-        private ReserveItemsOutputPort $output,
+        private ReserveItemsOutputPort  $output,
         private ProductRepository       $repository,
-        private ProductFactory          $factory,
     ) {}
 
     public function reserveItems(ReserveItemsRequestModel $request): ViewModel
@@ -21,7 +20,7 @@ class ReserveItemsInteractor implements ReserveItemsInputPort
         foreach ($order_items as $item)
         {
             $product = $this->repository->get($item['sku']);
-            if (($product->getQuantity() - $product->getReserved()) < $item['quantity'])
+            if ($product->getAvailableQuantity() < $item['quantity'])
             {
                 return $this->output->unableToReserveItems();
             }
@@ -30,7 +29,7 @@ class ReserveItemsInteractor implements ReserveItemsInputPort
         foreach ($order_items as $item)
         {
             $product = $this->repository->get($item['sku']);
-            $product->setReserved($product->getReserved() + $item['quantity']);
+            $product->reserve($item['quantity']);
         }
 
         return $this->output->itemsReserved(

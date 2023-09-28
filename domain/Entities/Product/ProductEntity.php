@@ -9,5 +9,9 @@ interface ProductEntity
 
     public function getReserved(): int;
 
-    public function setReserved(int $new): void;
+    public function setQuantityReserved(int $quantity, int $reserved): void;
+
+    public function getAvailableQuantity(): int;
+
+    public function reserve(int $count): void;
 }

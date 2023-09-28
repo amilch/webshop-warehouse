@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Factories\InventoryUpdatedAMQPEventFactory;
+use Domain\Entities\Product\QuantityReservedSetter;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,13 +28,17 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\AMQPService::class,
         );
 
+        $this->app->bind(
+            \Domain\Events\InventoryUpdated\InventoryUpdatedEventFactory::class,
+            \App\Factories\InventoryUpdatedAMQPEventFactory::class
+        );
+
         $this->app
             ->when(\App\Http\Controllers\UpdateInventoryController::class)
             ->needs(\Domain\UseCases\UpdateInventory\UpdateInventoryInputPort::class)
             ->give(function ($app) {
                 return $app->make(\Domain\UseCases\UpdateInventory\UpdateInventoryInteractor::class, [
                     'output' => $app->make(\App\Adapters\Presenters\UpdateInventoryJsonPresenter::class),
-                    'inventoryUpdatedEventFactory' => $app->make(\App\Factories\InventoryUpdatedAMQPEventFactory::class),
                 ]);
             });
 

@@ -14,23 +14,12 @@ class UpdateInventoryInteractor implements UpdateInventoryInputPort
         private UpdateInventoryOutputPort $output,
         private ProductRepository       $repository,
         private ProductFactory          $factory,
-        private EventService            $eventService,
-        private InventoryUpdatedEventFactory $inventoryUpdatedEventFactory,
     ) {}
 
     public function updateInventory(UpdateInventoryRequestModel $request): ViewModel
     {
-        $product = $this->factory->make([
-            'sku' => $request->getSku(),
-            'quantity' => $request->getQuantity(),
-            'reserved' => $request->getReserved(),
-        ]);
-
-        $product = $this->repository->upsert($product);
-
-        $real_quantity = $product->getQuantity() - $product->getReserved();
-        $event = $this->inventoryUpdatedEventFactory->make($product->getSku(), $real_quantity);
-        $this->eventService->publish($event);
+        $product = $this->repository->get($request->getSku());
+        $product->setQuantityReserved($request->getQuantity(), $request->getReserved());
 
         return $this->output->inventoryUpdated(
             new UpdateInventoryResponseModel($product)

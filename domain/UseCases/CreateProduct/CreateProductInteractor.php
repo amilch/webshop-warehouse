@@ -2,10 +2,9 @@
 
 namespace Domain\UseCases\CreateProduct;
 
-use Domain\Interfaces\MessageQueueService;
+use Domain\Events\ProductCreatedEvent;
 use Domain\Interfaces\ProductFactory;
 use Domain\Interfaces\ProductRepository;
-use Domain\Interfaces\ViewModel;
 
 class CreateProductInteractor implements CreateProductInputPort
 {
@@ -14,11 +13,11 @@ class CreateProductInteractor implements CreateProductInputPort
         private ProductFactory          $factory,
     ) {}
 
-    public function createProduct(CreateProductRequestModel $request): void
+    public function createProduct(ProductCreatedEvent $event): void
     {
-        var_dump($request->getSku());
+        var_dump($event->getSku());
         $product = $this->factory->make([
-            'sku' => $request->getSku(),
+            'sku' => $event->getSku(),
             'quantity' => 0,
             'reserved' => 0,
         ]);

@@ -2,7 +2,6 @@
 
 namespace Domain\UseCases\ReserveItems;
 
-use Domain\Interfaces\MessageQueueService;
 use Domain\Interfaces\ProductFactory;
 use Domain\Interfaces\ProductRepository;
 use Domain\Interfaces\ViewModel;

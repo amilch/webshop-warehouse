@@ -2,7 +2,9 @@
 
 namespace Domain\UseCases\UpdateInventory;
 
-use Domain\Interfaces\MessageQueueService;
+use Domain\Events\InventoryUpdatedEvent;
+use Domain\Interfaces\EventService;
+use Domain\Interfaces\InventoryUpdatedEventFactory;
 use Domain\Interfaces\ProductFactory;
 use Domain\Interfaces\ProductRepository;
 use Domain\Interfaces\ViewModel;
@@ -11,9 +13,10 @@ class UpdateInventoryInteractor implements UpdateInventoryInputPort
 {
     public function __construct(
         private UpdateInventoryOutputPort $output,
-        private UpdateInventoryMessageOutputPort $messageOutput,
         private ProductRepository       $repository,
         private ProductFactory          $factory,
+        private EventService            $eventService,
+        private InventoryUpdatedEventFactory $inventoryUpdatedEventFactory,
     ) {}
 
     public function updateInventory(UpdateInventoryRequestModel $request): ViewModel
@@ -27,11 +30,8 @@ class UpdateInventoryInteractor implements UpdateInventoryInputPort
         $product = $this->repository->upsert($product);
 
         $real_quantity = $product->getQuantity() - $product->getReserved();
-        $message = new InventoryUpdatedMessageModel([
-            'sku' => $product->getSku(),
-            'quantity' => $real_quantity
-        ]);
-        $this->messageOutput->inventoryUpdated($message);
+        $event = $this->inventoryUpdatedEventFactory->make($product->getSku(), $real_quantity);
+        $this->eventService->publish($event);
 
         return $this->output->inventoryUpdated(
             new UpdateInventoryResponseModel($product)

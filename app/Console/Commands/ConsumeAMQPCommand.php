@@ -3,10 +3,10 @@
 namespace App\Console\Commands;
 
 use Domain\UseCases\CreateProduct\CreateProductInputPort;
-use Domain\UseCases\CreateProduct\CreateProductRequestModel;
 use Illuminate\Console\Command;
 use BSchmitt\Amqp\Facades\Amqp;
 use BSchmitt\Amqp\Consumer;
+use Domain\Events\ProductCreatedEvent;
 use PhpAmqpLib\Message\AMQPMessage;
 use Exception;
 
@@ -36,7 +36,7 @@ class ConsumeAMQPCommand extends Command
                     var_dump('Message received', $payload);
 
                     $this->interactor->createProduct(
-                        new CreateProductRequestModel($payload)
+                        new ProductCreatedEvent($payload)
                     );
 
                     $resolver->acknowledge($message);

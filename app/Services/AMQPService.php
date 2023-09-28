@@ -2,18 +2,19 @@
 
 namespace App\Services;
 
+use App\Events\AMQPEvent;
 use App\Messages\AMQPMessage;
 use Bschmitt\Amqp\Facades\Amqp;
-use Domain\Interfaces\Message;
-use Domain\Interfaces\MessageQueueService;
+use Domain\Interfaces\Event;
+use Domain\Interfaces\EventService;
 
-class AMQPService implements MessageQueueService
+class AMQPService implements EventService
 {
-    public function publish(Message $msg): void
+    public function publish(Event $event): void
     {
-        if ($msg instanceof AMQPMessage) {
-            $encodedMessage = json_encode($msg->toArray());
-            Amqp::publish($msg->getRoutingKey(), $encodedMessage);
+        if ($event instanceof AMQPEvent) {
+            $encodedMessage = json_encode($event->toArray());
+            Amqp::publish($event->getRoutingKey(), $encodedMessage);
         }
     }
 }

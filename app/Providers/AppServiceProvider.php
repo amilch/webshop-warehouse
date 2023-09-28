@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            \Domain\Interfaces\MessageQueueService::class,
+            \Domain\Interfaces\EventService::class,
             \App\Services\AMQPService::class,
         );
 
@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
             ->give(function ($app) {
                 return $app->make(\Domain\UseCases\UpdateInventory\UpdateInventoryInteractor::class, [
                     'output' => $app->make(\App\Adapters\Presenters\UpdateInventoryJsonPresenter::class),
-                    'messageOutput' => $app->make(\App\Adapters\Publishers\InventoryUpdatedMessagePublisher::class),
+                    'inventoryUpdatedEventFactory' => $app->make(\App\Factories\InventoryUpdatedAMQPEventFactory::class),
                 ]);
             });
 

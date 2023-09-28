@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Product;
+use Domain\Events\ProductCreatedEvent;
 use Domain\UseCases\CreateProduct\CreateProductInteractor;
 use Domain\UseCases\CreateProduct\CreateProductRequestModel;
 use GuzzleHttp\Promise\Create;
@@ -25,10 +26,7 @@ class CreateProductTest extends TestCase
         $this->assertTrue(Product::where('sku', 'new_product')->get()->isEmpty());
 
         $interactor->createProduct(
-            new CreateProductRequestModel([
-                "sku" => "new_product",
-            ])
-        );
+            new ProductCreatedEvent("new_product"));
 
         $this->assertFalse(Product::where('sku', 'new_product')->get()->isEmpty());
         $product = Product::where('sku', 'new_product')->first();

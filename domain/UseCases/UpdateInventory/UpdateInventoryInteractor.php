@@ -2,11 +2,10 @@
 
 namespace Domain\UseCases\UpdateInventory;
 
-use Domain\Events\InventoryUpdatedEvent;
-use Domain\Interfaces\EventService;
-use Domain\Interfaces\InventoryUpdatedEventFactory;
-use Domain\Interfaces\ProductFactory;
-use Domain\Interfaces\ProductRepository;
+use Domain\Entities\Product\ProductFactory;
+use Domain\Entities\Product\ProductRepository;
+use Domain\Events\EventService;
+use Domain\Events\InventoryUpdated\InventoryUpdatedEventFactory;
 use Domain\Interfaces\ViewModel;
 
 class UpdateInventoryInteractor implements UpdateInventoryInputPort

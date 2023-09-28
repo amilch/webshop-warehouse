@@ -2,13 +2,13 @@
 
 namespace App\Console\Commands;
 
-use Domain\UseCases\CreateProduct\CreateProductInputPort;
-use Illuminate\Console\Command;
-use BSchmitt\Amqp\Facades\Amqp;
 use BSchmitt\Amqp\Consumer;
-use Domain\Events\ProductCreatedEvent;
-use PhpAmqpLib\Message\AMQPMessage;
+use BSchmitt\Amqp\Facades\Amqp;
+use Domain\Events\ProductCreated\ProductCreatedEvent;
+use Domain\UseCases\CreateProduct\CreateProductInputPort;
 use Exception;
+use Illuminate\Console\Command;
+use PhpAmqpLib\Message\AMQPMessage;
 
 class ConsumeAMQPCommand extends Command
 {

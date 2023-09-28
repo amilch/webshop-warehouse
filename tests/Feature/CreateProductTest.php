@@ -3,12 +3,10 @@
 namespace Tests\Feature;
 
 use App\Models\Product;
-use Domain\Events\ProductCreatedEvent;
+use Domain\Events\ProductCreated\ProductCreatedEvent;
 use Domain\UseCases\CreateProduct\CreateProductInteractor;
 use Domain\UseCases\CreateProduct\CreateProductRequestModel;
-use GuzzleHttp\Promise\Create;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 

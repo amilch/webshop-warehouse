@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use Domain\Events\InventoryUpdatedEvent;
+use Domain\Events\InventoryUpdated\InventoryUpdatedEvent;
 
 class InventoryUpdatedAMQPEvent implements AMQPEvent
 {

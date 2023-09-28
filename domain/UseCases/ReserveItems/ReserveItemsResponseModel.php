@@ -2,7 +2,7 @@
 
 namespace Domain\UseCases\ReserveItems;
 
-use Domain\Interfaces\ProductEntity;
+use Domain\Entities\Product\ProductEntity;
 
 class ReserveItemsResponseModel
 {

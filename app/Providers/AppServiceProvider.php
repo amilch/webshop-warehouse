@@ -12,17 +12,17 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(
-            \Domain\Interfaces\ProductRepository::class,
+            \Domain\Entities\Product\ProductRepository::class,
             \App\Repositories\ProductDatabaseRepository::class
         );
 
         $this->app->bind(
-            \Domain\Interfaces\ProductFactory::class,
+            \Domain\Entities\Product\ProductFactory::class,
             \App\Factories\ProductModelFactory::class
         );
 
         $this->app->bind(
-            \Domain\Interfaces\EventService::class,
+            \Domain\Events\EventService::class,
             \App\Services\AMQPService::class,
         );
 

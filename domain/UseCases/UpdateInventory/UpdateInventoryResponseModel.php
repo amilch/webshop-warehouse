@@ -2,7 +2,7 @@
 
 namespace Domain\UseCases\UpdateInventory;
 
-use Domain\Interfaces\ProductEntity;
+use Domain\Entities\Product\ProductEntity;
 
 class UpdateInventoryResponseModel
 {

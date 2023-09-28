@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use Domain\Interfaces\ProductEntity;
+use Domain\Entities\Product\ProductEntity;
 use Domain\ValueObjects\MoneyValueObject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Spatie\MediaLibrary\HasMedia;
 
 class Product extends Model implements ProductEntity
 {

@@ -3,9 +3,9 @@
 namespace App\Factories;
 
 use App\Events\InventoryUpdatedAMQPEvent;
-use Domain\Events\InventoryUpdatedEvent;
-use Domain\Interfaces\Event;
-use Domain\Interfaces\InventoryUpdatedEventFactory;
+use Domain\Events\Event;
+use Domain\Events\InventoryUpdated\InventoryUpdatedEvent;
+use Domain\Events\InventoryUpdated\InventoryUpdatedEventFactory;
 
 class InventoryUpdatedAMQPEventFactory implements InventoryUpdatedEventFactory
 {

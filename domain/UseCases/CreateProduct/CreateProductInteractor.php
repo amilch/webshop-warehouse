@@ -2,9 +2,9 @@
 
 namespace Domain\UseCases\CreateProduct;
 
-use Domain\Events\ProductCreatedEvent;
-use Domain\Interfaces\ProductFactory;
-use Domain\Interfaces\ProductRepository;
+use Domain\Entities\Product\ProductFactory;
+use Domain\Entities\Product\ProductRepository;
+use Domain\Events\ProductCreated\ProductCreatedEvent;
 
 class CreateProductInteractor implements CreateProductInputPort
 {

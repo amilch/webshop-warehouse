@@ -5,8 +5,8 @@ namespace App\Services;
 use App\Events\AMQPEvent;
 use App\Messages\AMQPMessage;
 use Bschmitt\Amqp\Facades\Amqp;
-use Domain\Interfaces\Event;
-use Domain\Interfaces\EventService;
+use Domain\Events\Event;
+use Domain\Events\EventService;
 
 class AMQPService implements EventService
 {

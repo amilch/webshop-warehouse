@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use Domain\Interfaces\ProductEntity;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UnableToReserveItemsResource extends JsonResource

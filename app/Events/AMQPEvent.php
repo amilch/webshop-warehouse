@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use Domain\Interfaces\Event;
+use Domain\Events\Event;
 
 interface AMQPEvent extends Event
 {

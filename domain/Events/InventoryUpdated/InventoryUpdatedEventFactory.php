@@ -1,7 +1,9 @@
 <?php
 
-namespace Domain\Interfaces;
+namespace Domain\Events\InventoryUpdated;
 
+
+use Domain\Events\Event;
 
 interface InventoryUpdatedEventFactory
 {

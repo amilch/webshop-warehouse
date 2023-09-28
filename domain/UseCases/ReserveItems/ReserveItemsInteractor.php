@@ -2,8 +2,8 @@
 
 namespace Domain\UseCases\ReserveItems;
 
-use Domain\Interfaces\ProductFactory;
-use Domain\Interfaces\ProductRepository;
+use Domain\Entities\Product\ProductFactory;
+use Domain\Entities\Product\ProductRepository;
 use Domain\Interfaces\ViewModel;
 
 class ReserveItemsInteractor implements ReserveItemsInputPort

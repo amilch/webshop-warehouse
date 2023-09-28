@@ -2,8 +2,7 @@
 
 namespace Domain\UseCases\CreateProduct;
 
-use Domain\Events\ProductCreatedEvent;
-use Domain\Interfaces\ViewModel;
+use Domain\Events\ProductCreated\ProductCreatedEvent;
 
 interface CreateProductInputPort
 {

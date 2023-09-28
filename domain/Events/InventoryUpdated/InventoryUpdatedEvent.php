@@ -1,8 +1,8 @@
 <?php
 
-namespace Domain\Events;
+namespace Domain\Events\InventoryUpdated;
 
-use Domain\Interfaces\Event;
+use Domain\Events\Event;
 
 class InventoryUpdatedEvent implements Event
 {

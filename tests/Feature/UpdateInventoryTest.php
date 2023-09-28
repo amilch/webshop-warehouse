@@ -12,6 +12,9 @@ use Tests\TestCase;
 
 class UpdateInventoryTest extends TestCase
 {
+    use RefreshDatabase;
+    protected $seed = true;
+
     use WithoutMiddleware;
 
     public function test_updating_inventory_changes_the_quantity(): void
@@ -44,7 +47,7 @@ class UpdateInventoryTest extends TestCase
             ->once()
             ->withArgs([
                 'inventory_updated',
-                '{"sku":"kirsch_tomaten_samen","quantity":200}'
+                '{"sku":"kirsch_tomaten_samen","quantity":100}'
             ]);
 
         $response = $this->postJson('/products',[

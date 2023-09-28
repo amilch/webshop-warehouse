@@ -3,19 +3,18 @@
 namespace App\Adapters\ViewModels;
 
 use Domain\Interfaces\ViewModel;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class JsonResourceViewModel implements ViewModel
 {
-    private JsonResource $resource;
+    public function __construct(
+        private JsonResource $resource,
+        private int $status_code = \Illuminate\Http\Response::HTTP_OK
+    ) { }
 
-    public function __construct(JsonResource $resource)
+    public function getResource(): JsonResponse
     {
-        $this->resource = $resource;
-    }
-
-    public function getResource(): JsonResource
-    {
-        return $this->resource;
+        return $this->resource->response()->setStatusCode($this->status_code);
     }
 }

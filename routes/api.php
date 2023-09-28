@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/reserve', '\App\Http\Controllers\ReserveItemsController');
 
 Route::group(['middleware' => ['auth:api', 'can:admin']], function() {
     Route::get('/products', '\App\Http\Controllers\GetProductsController');

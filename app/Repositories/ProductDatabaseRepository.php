@@ -24,4 +24,9 @@ class ProductDatabaseRepository implements ProductRepository
     {
         return Product::all()->all();
     }
+
+    public function get(string $sku): ProductEntity
+    {
+        return Product::where('sku', $sku)->limit(1)->get()->first();
+    }
 }

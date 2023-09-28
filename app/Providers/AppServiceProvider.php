@@ -46,16 +46,21 @@ class AppServiceProvider extends ServiceProvider
             });
 
         $this->app
+            ->when(\App\Http\Controllers\ReserveItemsController::class)
+            ->needs(\Domain\UseCases\ReserveItems\ReserveItemsInputPort::class)
+            ->give(function ($app) {
+                return $app->make(\Domain\UseCases\ReserveItems\ReserveItemsInteractor::class, [
+                    'output' => $app->make(\App\Adapters\Presenters\ReserveItemsJsonPresenter::class)
+                ]);
+            });
+
+        $this->app
             ->when(\App\Console\Commands\ConsumeAMQPCommand::class)
             ->needs(\Domain\UseCases\CreateProduct\CreateProductInputPort::class)
             ->give(function ($app) {
                 return $app->make(\Domain\UseCases\CreateProduct\CreateProductInteractor::class);
             });
 
-//        $this->app->bind(
-//            \Domain\UseCases\CreateProduct\CreateProductInputPort::class,
-//            \Domain\UseCases\CreateProduct\CreateProductInteractor::class,
-//        );
     }
 
     /**

@@ -26,9 +26,10 @@ class UpdateInventoryInteractor implements UpdateInventoryInputPort
 
         $product = $this->repository->upsert($product);
 
+        $real_quantity = $product->getQuantity() - $product->getReserved();
         $message = new InventoryUpdatedMessageModel([
             'sku' => $product->getSku(),
-            'quantity' => $product->getQuantity(),
+            'quantity' => $real_quantity
         ]);
         $this->messageOutput->inventoryUpdated($message);
 

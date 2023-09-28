@@ -8,11 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Product extends Model implements HasMedia, ProductEntity
+class Product extends Model implements ProductEntity
 {
-    use InteractsWithMedia;
     use HasFactory;
 
     protected $fillable = [
@@ -41,5 +39,11 @@ class Product extends Model implements HasMedia, ProductEntity
     public function getReserved(): int
     {
         return $this->attributes['reserved'];
+    }
+
+    public function setReserved(int $new): void
+    {
+        $this->attributes['reserved']  = $new;
+        $this->save();
     }
 }

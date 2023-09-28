@@ -2,8 +2,6 @@
 
 namespace Domain\Interfaces;
 
-use Domain\ValueObjects\MoneyValueObject;
-
 interface ProductEntity
 {
     public function getSku(): string;
@@ -11,4 +9,5 @@ interface ProductEntity
 
     public function getReserved(): int;
 
+    public function setReserved(int $new): void;
 }

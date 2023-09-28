@@ -11,6 +11,9 @@ use Tests\TestCase;
 
 class GetProductsTest extends TestCase
 {
+    use RefreshDatabase;
+    protected $seed = true;
+
     use WithoutMiddleware;
 
     public function test_returns_all_products(): void
@@ -29,7 +32,7 @@ class GetProductsTest extends TestCase
 
     public function test_returns_empty_when_no_products(): void
     {
-        Product::truncate();
+        Product::all()->map->delete();
         $response = $this->getJson('/products');
         $response
             ->assertStatus(200)

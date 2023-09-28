@@ -36,7 +36,7 @@ class ConsumeAMQPCommand extends Command
                     var_dump('Message received', $payload);
 
                     $this->interactor->createProduct(
-                        new ProductCreatedEvent($payload)
+                        ProductCreatedEvent::fromArray($payload)
                     );
 
                     $resolver->acknowledge($message);

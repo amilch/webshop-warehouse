@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Product;
 use Domain\Events\ProductCreated\ProductCreatedEvent;
 use Domain\UseCases\CreateProduct\CreateProductInteractor;
-use Domain\UseCases\CreateProduct\CreateProductRequestModel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
